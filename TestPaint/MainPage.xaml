@@ -18,12 +18,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button/>
+            <Button/>
+            <Button/>
+        </StackPanel>
+
         <ScrollViewer Grid.Column="1" Grid.Row="1" Background="#FFF7EFDE">
-            
-            <InkCanvas x:Name="canvas">
-                
-            </InkCanvas>
+            <InkCanvas x:Name="canvas"/>
         </ScrollViewer>
-        <InkToolbar Grid.Column="1" Grid.ColumnSpan="2" TargetInkCanvas="{Binding ElementName=canvas}"></InkToolbar>
+
     </Grid>
 </Page>
