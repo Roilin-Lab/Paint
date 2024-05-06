@@ -27,7 +27,7 @@ namespace TestPaint
             StorageFile file = await storageFolder.CreateFileAsync("Untitled.isf", CreationCollisionOption.GenerateUniqueName);
 
             InkCanvas inkCanvas = new InkCanvas();
-            CanvasDataObject canvasDataObject = new CanvasDataObject(file.DisplayName, file.FileType);
+            CanvasDataObject canvasDataObject = new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime);
 
             WriteCanvaseInFile(inkCanvas, file);
 
@@ -63,7 +63,7 @@ namespace TestPaint
             foreach (StorageFile file in fileList)
             {
                 if (file.FileType == ".isf")
-                    canvasDataObjects.Add(new CanvasDataObject(file.DisplayName, file.FileType));
+                    canvasDataObjects.Add(new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime));
             }
             return canvasDataObjects;
         }

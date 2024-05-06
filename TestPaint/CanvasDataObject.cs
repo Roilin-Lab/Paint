@@ -10,14 +10,19 @@ namespace TestPaint
     public class CanvasDataObject
     {
         public string Title;
-        public string FullName;
+        public string FileType;
         public DateTime CreatedAt;
 
-        public CanvasDataObject(string title)
+        public string FullName 
+        {
+            get => Title + FileType;
+        }
+
+        public CanvasDataObject(string title, string fileType, DateTime dateCreated)
         {
             Title = title;
-            FullName = title + ".gif";
-            CreatedAt = DateTime.Now;
+            FileType = fileType;
+            CreatedAt = dateCreated;
         }
     }
 }
