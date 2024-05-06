@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,13 +24,16 @@ namespace TestPaint
         {
             this.InitializeComponent();
 
-            CanvasData = new List<CanvasDataObject>() { new CanvasDataObject("Untitled"), new CanvasDataObject("Hello World") };
+            CanvasData = new List<CanvasDataObject>() 
+            { 
+                new CanvasDataObject("Untitled"), 
+                new CanvasDataObject("Hello World") 
+            };
         }
 
         private void listCanvas_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame frame = Window.Current.Content as Frame;
-            frame.Navigate(typeof(DrawingPage));
+            Frame.Navigate(typeof(DrawingPage), e.ClickedItem);
         }
     }
 }

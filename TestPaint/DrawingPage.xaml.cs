@@ -25,6 +25,8 @@ namespace TestPaint
 {
     public sealed partial class DrawingPage : Page
     {
+        CanvasDataObject CanvasDataObject;
+
         public DrawingPage()
         {
             this.InitializeComponent();
@@ -36,7 +38,6 @@ namespace TestPaint
         {
             InkDrawingAttributes drawAttrs = new InkDrawingAttributes();
             drawAttrs.Color = colorPicker.Color;
-            drawAttrs.FitToCurve = false;
             drawAttrs.Size = new Size(5, 5);
             canvas.InkPresenter.UpdateDefaultDrawingAttributes(drawAttrs);
         }
@@ -44,9 +45,7 @@ namespace TestPaint
         private void size_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             if (frameCanvas != null)
-            {
                 frameCanvas.ChangeView(0, 0, (float)e.NewValue, false);
-            }
         }
 
         private void canvas_Loaded(object sender, RoutedEventArgs e)
@@ -77,8 +76,22 @@ namespace TestPaint
 
         private void hub_Click(object sender, RoutedEventArgs e)
         {
-            Frame frame = Window.Current.Content as Frame;
-            frame.Navigate(typeof(HubPage));
+            Frame.Navigate(typeof(HubPage));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            CanvasDataObject = (CanvasDataObject)e.Parameter;
+            StorageManager.LoadCanvas(canvas, CanvasDataObject);
+            base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (CanvasDataObject != null)
+                StorageManager.SaveCanvas(canvas, CanvasDataObject);
+
+            base.OnNavigatingFrom(e);
         }
     }
 }
