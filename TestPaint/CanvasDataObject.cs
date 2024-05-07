@@ -10,7 +10,7 @@ namespace TestPaint
     public class CanvasDataObject
     {
         public string Title;
-        public string FileType;
+        public const string FileType = ".gif";
         public DateTime CreatedAt;
 
         public string FullName 
@@ -18,10 +18,9 @@ namespace TestPaint
             get => Title + FileType;
         }
 
-        public CanvasDataObject(string title, string fileType, DateTime dateCreated)
+        public CanvasDataObject(string title, DateTime dateCreated)
         {
             Title = title;
-            FileType = fileType;
             CreatedAt = dateCreated;
         }
     }

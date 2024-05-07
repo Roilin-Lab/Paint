@@ -24,7 +24,7 @@ namespace TestPaint
         public static async Task<CanvasDataObject> CreateCanvas()
         {
             StorageFolder storageFolder = await GetOrCreateWorkDirectory();
-            StorageFile file = await storageFolder.CreateFileAsync("Untitled.isf", CreationCollisionOption.GenerateUniqueName);
+            StorageFile file = await storageFolder.CreateFileAsync("Untitled" + CanvasDataObject.FileType, CreationCollisionOption.GenerateUniqueName);
 
             InkCanvas inkCanvas = new InkCanvas();
             CanvasDataObject canvasDataObject = GetCanvasDataObject(file);
@@ -32,7 +32,7 @@ namespace TestPaint
             WriteCanvaseInFile(inkCanvas, file);
 
             return canvasDataObject;
-            
+
         }
 
         public static async void LoadCanvas(InkCanvas inkCanvas, CanvasDataObject canvasDataObject)
@@ -62,7 +62,7 @@ namespace TestPaint
             List<CanvasDataObject> canvasDataObjects = new List<CanvasDataObject>();
             foreach (StorageFile file in fileList)
             {
-                if (file.FileType == ".isf")
+                if (file.FileType == CanvasDataObject.FileType)
                     canvasDataObjects.Add(GetCanvasDataObject(file));
             }
             return canvasDataObjects;
@@ -81,13 +81,13 @@ namespace TestPaint
             StorageFolder storageFolder = await GetOrCreateWorkDirectory();
             StorageFile file = await storageFolder.GetFileAsync(canvasDataObject.FullName);
 
-            await file.RenameAsync(newName + ".isf", NameCollisionOption.ReplaceExisting);
+            await file.RenameAsync(newName + CanvasDataObject.FileType, NameCollisionOption.ReplaceExisting);
             return GetCanvasDataObject(file);
         }
 
         private static CanvasDataObject GetCanvasDataObject(StorageFile file)
         {
-            return new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime);
+            return new CanvasDataObject(file.DisplayName, file.DateCreated.DateTime);
         }
 
         private static async void WriteCanvaseInFile(InkCanvas inkCanvas, StorageFile file)
@@ -98,7 +98,7 @@ namespace TestPaint
                 IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                 using (IOutputStream outputStream = stream.GetOutputStreamAt(0))
                 {
-                    await inkCanvas.InkPresenter.StrokeContainer.SaveAsync(outputStream, Windows.UI.Input.Inking.InkPersistenceFormat.Isf);
+                    await inkCanvas.InkPresenter.StrokeContainer.SaveAsync(outputStream, Windows.UI.Input.Inking.InkPersistenceFormat.GifWithEmbeddedIsf);
                     await outputStream.FlushAsync();
                 }
                 stream.Dispose();
