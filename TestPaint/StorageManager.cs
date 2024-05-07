@@ -27,7 +27,7 @@ namespace TestPaint
             StorageFile file = await storageFolder.CreateFileAsync("Untitled.isf", CreationCollisionOption.GenerateUniqueName);
 
             InkCanvas inkCanvas = new InkCanvas();
-            CanvasDataObject canvasDataObject = new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime);
+            CanvasDataObject canvasDataObject = GetCanvasDataObject(file);
 
             WriteCanvaseInFile(inkCanvas, file);
 
@@ -63,9 +63,31 @@ namespace TestPaint
             foreach (StorageFile file in fileList)
             {
                 if (file.FileType == ".isf")
-                    canvasDataObjects.Add(new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime));
+                    canvasDataObjects.Add(GetCanvasDataObject(file));
             }
             return canvasDataObjects;
+        }
+
+        public static async void DeleteCanvas(CanvasDataObject canvasDataObject)
+        {
+            StorageFolder storageFolder = await GetOrCreateWorkDirectory();
+            StorageFile file = await storageFolder.GetFileAsync(canvasDataObject.FullName);
+
+            await file.DeleteAsync();
+        }
+
+        public static async Task<CanvasDataObject> RenameCanvas(CanvasDataObject canvasDataObject, string newName)
+        {
+            StorageFolder storageFolder = await GetOrCreateWorkDirectory();
+            StorageFile file = await storageFolder.GetFileAsync(canvasDataObject.FullName);
+
+            await file.RenameAsync(newName + ".isf", NameCollisionOption.ReplaceExisting);
+            return GetCanvasDataObject(file);
+        }
+
+        private static CanvasDataObject GetCanvasDataObject(StorageFile file)
+        {
+            return new CanvasDataObject(file.DisplayName, file.FileType, file.DateCreated.DateTime);
         }
 
         private static async void WriteCanvaseInFile(InkCanvas inkCanvas, StorageFile file)
