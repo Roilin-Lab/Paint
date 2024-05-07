@@ -8,6 +8,24 @@
     xmlns:local="using:TestPaint"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <MenuFlyout x:Key="CanvasContextMenu">
+            <MenuFlyoutItem Text="Share">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Rename" Icon="Rename" Click="renameCanvas_Click"/>
+            <MenuFlyoutItem Text="Duplicate" Icon="Copy"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Delete" Foreground="#FFE21821" Click="deleteCanvas_Click">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;" Foreground="#FFE21821"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </Page.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -32,28 +50,10 @@
                     <Setter Property="Margin" Value="4.5"/>
                     <Setter Property="Padding" Value="9"/>
                     <!-- Контекстное меню -->
-                    <Setter Property="ContextFlyout">
-                        <Setter.Value>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="Share">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE72D;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Rename" Icon="Rename" Click="renameCanvas_Click"/>
-                                <MenuFlyoutItem Text="Duplicate" Icon="Copy"/>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Delete" Foreground="#FFE21821" Click="deleteCanvas_Click" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE74D;" Foreground="#FFE21821"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="ContextFlyout" Value="{StaticResource CanvasContextMenu}"/>
                 </Style>
             </GridView.ItemContainerStyle>
-
+            
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local:CanvasDataObject">
                     <StackPanel>

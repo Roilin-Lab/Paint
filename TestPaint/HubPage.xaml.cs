@@ -19,11 +19,13 @@ namespace TestPaint
 {
     public sealed partial class HubPage : Page
     {
+        MenuFlyout CanvasContextMenu;
         private ObservableCollection<CanvasDataObject> CanvasData;
 
         public HubPage()
         {
             this.InitializeComponent();
+            CanvasContextMenu = Resources["CanvasContextMenu"] as MenuFlyout;
             CanvasData = new ObservableCollection<CanvasDataObject>();
         }
 
@@ -53,12 +55,26 @@ namespace TestPaint
 
         private void deleteCanvas_Click(object sender, RoutedEventArgs e)
         {
+            GridViewItem target = (GridViewItem)CanvasContextMenu.Target;
+            CanvasDataObject canvasDataObject = (CanvasDataObject)target.Content;
 
+            StorageManager.DeleteCanvas(canvasDataObject);
+            CanvasData.Remove(canvasDataObject);
         }
 
-        private void renameCanvas_Click(object sender, RoutedEventArgs e)
+        private async void renameCanvas_Click(object sender, RoutedEventArgs e)
         {
+            GridViewItem target = (GridViewItem)CanvasContextMenu.Target;
+            CanvasDataObject canvasDataObject = (CanvasDataObject)target.Content;
 
+            var dialog = new RenameCanvasDialogContent(canvasDataObject.Title);
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                var newCanvasDataObject = await StorageManager.RenameCanvas(canvasDataObject, dialog.NewName);
+                CanvasData[CanvasData.IndexOf(canvasDataObject)] = newCanvasDataObject;
+            }
         }
     }
 }
