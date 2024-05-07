@@ -4,70 +4,64 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TestPaint"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Light">
 
-    <Grid Background="Gray">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="*" />
+            <!--<ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20*" />-->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <!--<RowDefinition Height="50" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />-->
         </Grid.RowDefinitions>
 
-        <Button x:Name="hub" Content="Hub" Click="hub_Click"/>
-
-        <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-            <DropDownButton Content="Brush" CornerRadius="5" >
-                <DropDownButton.Flyout>
-                    <Flyout>
-                        <StackPanel>
-
-                        </StackPanel>
-                    </Flyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
-
-            <DropDownButton Content="Color" CornerRadius="5">
-                <DropDownButton.Flyout>
-                    <Flyout>
-                        <ColorPicker x:Name="colorPicker"
-                        ColorSpectrumShape="Ring"
-                        IsMoreButtonVisible="False"
-                        IsColorSliderVisible="True"
-                        IsColorChannelTextInputVisible="True"
-                        IsHexInputVisible="True"
-                        IsAlphaEnabled="True"
-                        IsAlphaSliderVisible="True"
-                        IsAlphaTextInputVisible="True" ColorChanged="colorPicker_ColorChanged"/>
-                    </Flyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
-            <Button Content="Pencil"/>
-            <Button Content="Eraser" />
-        </StackPanel>
-
         <Grid Grid.Column="1" Grid.Row="1">
-            <ScrollViewer x:Name="frameCanvas" Background="#CC121D38"
+            <ScrollViewer x:Name="frameCanvas"
                 HorizontalScrollBarVisibility="Visible"
                 HorizontalScrollMode="Enabled"
                 VerticalScrollBarVisibility="Visible"
                 VerticalScrollMode="Enabled">
                 <Border Margin="50" BorderThickness="2" BorderBrush="#FF608BBB" Width="1080" Height="720" Background="White">
-                    <InkCanvas x:Name="canvas" Loaded="canvas_Loaded" />
+                    <InkCanvas x:Name="canvas" Loaded="canvas_Loaded"/>
                 </Border>
             </ScrollViewer>
         </Grid>
 
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,15,15">
+            <Button x:Name="hub" Click="hub_Click" Width="46" Height="46" Margin="0,0,0,5" ToolTipService.ToolTip="Hub" Foreground="{ThemeResource ButtonForeground}">
+                <Button.Content>
+                    <FontIcon Glyph="&#xe8a9;" Foreground="Black"/>
+                </Button.Content>
+            </Button>
+
+            <Border CornerRadius="5" BorderThickness="{ThemeResource ButtonBorderThemeThickness}" HorizontalAlignment="Center" Background="{ThemeResource ButtonBackground}" BorderBrush="{ThemeResource ButtonBorderBrush}">
+                <InkToolbar Orientation="Vertical" TargetInkCanvas="{x:Bind canvas}">
+                    
+                </InkToolbar>
+            </Border>
+
+            <Button x:Name="sizeBtn" Width="46" Height="46" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0">
+                <Button.Flyout>
+                    <Flyout Placement="Right">
+                        <Slider x:Name="size" Width="200"
+                            Value="1" Maximum="10" 
+                            Minimum="0" StepFrequency="0.1" 
+                            ValueChanged="size_ValueChanged"/>
+                    </Flyout>
+                </Button.Flyout>
+                <Button.Content>
+                    <FontIcon Glyph="&#xece9;" Foreground="Black"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
         <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <Slider x:Name="size" Width="200"
-            Value="1" Maximum="10" 
-            Minimum="0" StepFrequency="0.1" 
-            ValueChanged="size_ValueChanged"/>
+            
+            
         </Grid>
     </Grid>
 </Page>

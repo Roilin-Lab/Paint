@@ -34,13 +34,13 @@ namespace TestPaint
             canvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
         }
 
-        private void colorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
-        {
-            InkDrawingAttributes drawAttrs = new InkDrawingAttributes();
-            drawAttrs.Color = colorPicker.Color;
-            drawAttrs.Size = new Size(5, 5);
-            canvas.InkPresenter.UpdateDefaultDrawingAttributes(drawAttrs);
-        }
+        //private void colorPicker_ColorChanged(ColorPicker sender, ColorChangedEventArgs args)
+        //{
+        //    InkDrawingAttributes drawAttrs = new InkDrawingAttributes();
+        //    drawAttrs.Color = colorPicker.Color;
+        //    drawAttrs.Size = new Size(5, 5);
+        //    canvas.InkPresenter.UpdateDefaultDrawingAttributes(drawAttrs);
+        //}
 
         private void size_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
@@ -50,33 +50,39 @@ namespace TestPaint
 
         private void canvas_Loaded(object sender, RoutedEventArgs e)
         {
-            InkStrokeBuilder builder = new InkStrokeBuilder();
-            InkDrawingAttributes drawAttrs = new InkDrawingAttributes();
-            drawAttrs.Color = Color.FromArgb(0, 75, 75, 75);
-            drawAttrs.FitToCurve = false;
-            drawAttrs.Size = new Size(1, 1);
-            builder.SetDefaultDrawingAttributes(drawAttrs);
-            for (int i = 0; i < canvas.ActualWidth; i += 10)
-            {
-                List<InkPoint> horizontalLine = new List<InkPoint>()
-                {
-                    new InkPoint(new Point(i,0), 0.1f),
-                    new InkPoint(new Point(i,canvas.ActualHeight), 0.1f),
-                };
-                canvas.InkPresenter.StrokeContainer.AddStroke(builder.CreateStrokeFromInkPoints(horizontalLine, Matrix3x2.Identity));
-
-                List<InkPoint> verticalLine = new List<InkPoint>()
-                {
-                    new InkPoint(new Point(0,i), 0.1f),
-                    new InkPoint(new Point(canvas.ActualWidth,i), 0.1f),
-                };
-                canvas.InkPresenter.StrokeContainer.AddStroke(builder.CreateStrokeFromInkPoints(verticalLine, Matrix3x2.Identity));
-            }
+            
         }
 
         private void hub_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(HubPage));
+        }
+
+        private void DrawGridCanvas()
+        {
+            InkStrokeBuilder builder = new InkStrokeBuilder();
+            InkDrawingAttributes drawAttrs = new InkDrawingAttributes();
+            drawAttrs.Color = Color.FromArgb(0, 50, 50, 50);
+            drawAttrs.Size = new Size(3, 3);
+            builder.SetDefaultDrawingAttributes(drawAttrs);
+            for (int i = 0; i < canvas.ActualWidth; i += 10)
+            {
+                List<InkPoint> horizontalLine = new List<InkPoint>()
+                {
+                    new InkPoint(new Point(i,0), 0.01f),
+                    new InkPoint(new Point(i,canvas.ActualHeight), 0.01f),
+                };
+                canvas.InkPresenter.StrokeContainer.AddStroke(builder.CreateStrokeFromInkPoints(horizontalLine, Matrix3x2.Identity));
+            }
+            for (int i = 0; i < canvas.ActualHeight; i += 10)
+            { 
+                List<InkPoint> verticalLine = new List<InkPoint>()
+                {
+                    new InkPoint(new Point(0,i), 0.01f),
+                    new InkPoint(new Point(canvas.ActualWidth,i), 0.01f),
+                };
+                canvas.InkPresenter.StrokeContainer.AddStroke(builder.CreateStrokeFromInkPoints(verticalLine, Matrix3x2.Identity));
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -92,6 +98,11 @@ namespace TestPaint
                 StorageManager.SaveCanvas(canvas, CanvasDataObject);
 
             base.OnNavigatingFrom(e);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DrawGridCanvas();
         }
     }
 }
