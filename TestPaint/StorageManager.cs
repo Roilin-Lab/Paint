@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -83,6 +87,41 @@ namespace TestPaint
 
             await file.RenameAsync(newName + CanvasDataObject.FileType, NameCollisionOption.ReplaceExisting);
             return GetCanvasDataObject(file);
+        }
+
+        public static async void SaveToBSON(CanvasDataObject canvasDataObject)
+        {
+            StorageFolder folder = await GetOrCreateWorkDirectory();
+            StorageFile file = await folder.CreateFileAsync("test.testPaint", CreationCollisionOption.ReplaceExisting);
+         
+            MemoryStream ms = new MemoryStream();
+            using (BsonDataWriter writer = new BsonDataWriter(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(writer, canvasDataObject);
+                await FileIO.WriteBytesAsync(file, ms.ToArray());
+                await writer.FlushAsync();
+            }
+            ms.Close();
+        }
+
+        public static async Task<CanvasDataObject> LoadFromBSON()
+        {
+            StorageFolder folder = await GetOrCreateWorkDirectory();
+            StorageFile file = await folder.GetFileAsync("test.testPaint");
+            CanvasDataObject canvasDataObject;
+
+            var data = await FileIO.ReadBufferAsync(file);
+
+            MemoryStream ms = new MemoryStream(data.ToArray());
+            using (BsonDataReader reader = new BsonDataReader(ms))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                canvasDataObject = serializer.Deserialize<CanvasDataObject>(reader);
+                reader.Close();
+            }
+            ms.Close();
+            return canvasDataObject;
         }
 
         private static CanvasDataObject GetCanvasDataObject(StorageFile file)

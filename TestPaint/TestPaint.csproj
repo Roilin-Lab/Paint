@@ -126,6 +126,8 @@
     <Compile Include="HubPage.xaml.cs">
       <DependentUpon>HubPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Layer.cs" />
+    <Compile Include="LayerManager.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +180,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.8.6</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json.Bson">
+      <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Win2D.uwp">
       <Version>1.27.1</Version>

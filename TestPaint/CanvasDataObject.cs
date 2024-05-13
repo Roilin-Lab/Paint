@@ -12,6 +12,7 @@ namespace TestPaint
         public string Title;
         public const string FileType = ".gif";
         public DateTime CreatedAt;
+        public LayerManager LayerManager;
 
         public string FullName 
         {
@@ -22,6 +23,7 @@ namespace TestPaint
         {
             Title = title;
             CreatedAt = dateCreated;
+            LayerManager = new LayerManager();
         }
     }
 }
