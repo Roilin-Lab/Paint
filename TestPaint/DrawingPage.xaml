@@ -20,10 +20,9 @@
 
         <Grid Grid.Column="1" Grid.Row="1">
             <ScrollViewer x:Name="frameCanvas"
-                HorizontalScrollBarVisibility="Visible"
-                HorizontalScrollMode="Enabled"
-                VerticalScrollBarVisibility="Visible"
-                VerticalScrollMode="Enabled">
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                ZoomMode="Enabled">
                 <Border Margin="50" BorderThickness="2" BorderBrush="#FF608BBB" Width="1080" Height="720" Background="White">
                     <Grid>
                         <canvas:CanvasControl x:Name="canvasControl" Draw="canvasControl_Draw" CreateResources="canvasControl_CreateResources"/>
@@ -45,18 +44,15 @@
                     
                 </InkToolbar>
             </Border>
-
-            <Button x:Name="sizeBtn" Width="46" Height="46" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0">
-                <Button.Flyout>
-                    <Flyout Placement="Right">
-                        <Slider x:Name="size" Width="200"
-                            Value="1" Maximum="10" 
-                            Minimum="0" StepFrequency="0.1" 
-                            ValueChanged="size_ValueChanged"/>
-                    </Flyout>
-                </Button.Flyout>
+            
+            <Button x:Name="SaveBtn" Width="46" Height="46" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0" Click="SaveBtn_Click">
                 <Button.Content>
-                    <FontIcon Glyph="&#xece9;" Foreground="Black"/>
+                    <FontIcon Glyph="&#xE74E;" Foreground="Black"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="LoadBtn" Width="46" Height="46" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0">
+                <Button.Content>
+                    <FontIcon Glyph="&#xE896;" Foreground="Black"/>
                 </Button.Content>
             </Button>
             <Button x:Name="SaveBtn" Width="46" Height="46" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0" Click="SaveBtn_Click">

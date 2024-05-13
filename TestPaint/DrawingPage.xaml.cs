@@ -39,17 +39,6 @@ namespace TestPaint
             canvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen;
         }
 
-        private void size_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            if (frameCanvas != null)
-                frameCanvas.ChangeView(0, 0, (float)e.NewValue, false);
-        }
-
-        private void hub_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(HubPage));
-        }
-
         private void DrawGridCanvas()
         {
             InkStrokeBuilder builder = new InkStrokeBuilder();
@@ -92,9 +81,39 @@ namespace TestPaint
             base.OnNavigatingFrom(e);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void canvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            DrawGridCanvas();
+            using(CanvasDrawingSession session = renderTarget.CreateDrawingSession())
+            {
+                session.DrawText("Hello World", 100, 100, Colors.Black);
+            }
+
+            args.DrawingSession.DrawImage(renderTarget);
+        }
+
+        private void canvasControl_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        {
+            renderTarget = new CanvasRenderTarget(canvasControl, canvasControl.Size);
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var strokes = canvas.InkPresenter.StrokeContainer.GetStrokes()
+                .Select<InkStroke, StrokeData>((inkStroke, strokeData) => new StrokeData(inkStroke.GetInkPoints(), inkStroke.DrawingAttributes));
+            Layer layer = new Layer("test", true, 1, strokes);
+            CanvasDataObject.LayerManager.AddLayer(layer);
+            StorageManager.SaveToJSON(CanvasDataObject);
+        }
+
+        private void hub_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HubPage));
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            this.canvasControl.RemoveFromVisualTree();
+            this.canvasControl = null;
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)

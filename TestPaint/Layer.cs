@@ -37,7 +37,6 @@ namespace TestPaint
 
         public StrokeData(IEnumerable<InkPoint> points, InkDrawingAttributes attributes)
         {
-            
             this.points = points.ToList();
             Attributes = attributes;
         }
