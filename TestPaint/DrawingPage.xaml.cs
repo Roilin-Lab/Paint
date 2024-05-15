@@ -144,13 +144,29 @@ namespace TestPaint
             frameCanvas.ChangeView(offsetX, offsetY, frameCanvas.ZoomFactor, true);
         }
 
-        private void Page_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private void frameCanvas_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Space)
             {
-                PanBtn.IsChecked = !PanBtn.IsChecked;
+                if ((bool)!PanBtn.IsChecked)
+                    PanBtn.IsChecked = true;
                 e.Handled = true;
             }
+        }
+
+        private void frameCanvas_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Space)
+            {
+                if ((bool)PanBtn.IsChecked)
+                    PanBtn.IsChecked = false;
+                e.Handled = true;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            frameCanvas.Focus(FocusState.Programmatic);
         }
     }
 }

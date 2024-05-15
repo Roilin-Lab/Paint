@@ -9,29 +9,30 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Unloaded="Page_Unloaded"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark" PreviewKeyDown="Page_PreviewKeyDown">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Light" Loaded="Page_Loaded">
 
-    <Grid>
+    <Grid >
         <Grid>
             <ScrollViewer x:Name="frameCanvas"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Disabled"
                           HorizontalScrollMode="Disabled"
-                          ZoomMode="Enabled">
+                          ZoomMode="Enabled" PreviewKeyDown="frameCanvas_PreviewKeyDown" PreviewKeyUp="frameCanvas_PreviewKeyUp" IsTabStop="True">
                 <Border x:Name="border" BorderThickness="3" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="1080" Height="720" Background="White" Margin="150">
                     <Grid>
                         <canvas:CanvasControl x:Name="canvasControl" Draw="canvasControl_Draw" CreateResources="canvasControl_CreateResources"/>
-                        <InkCanvas x:Name="canvas" ManipulationDelta="canvas_ManipulationDelta" />
+                        <InkCanvas x:Name="canvas" ManipulationDelta="canvas_ManipulationDelta"/>
                     </Grid>
                 </Border>
             </ScrollViewer>
         </Grid>
 
         <ScrollViewer HorizontalScrollMode="Disabled"
-                      HorizontalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Hidden"
                       HorizontalAlignment="Left">
-            <StackPanel  Margin="20,20,0,20"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Margin="20,20,0,20" HorizontalAlignment="Center" VerticalAlignment="Center">
 
                 <Button x:Name="hub" Click="hub_Click" Width="48" Height="48" Margin="0,0,0,5" ToolTipService.ToolTip="Hub"
                         BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
@@ -42,7 +43,7 @@
 
                 <Border CornerRadius="5" BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
                     <InkToolbar x:Name="Toolbar" Orientation="Vertical" TargetInkCanvas="{x:Bind canvas}">
-                        <InkToolbarBallpointPenButton IsThreeState="True" >
+                        <InkToolbarBallpointPenButton>
                             <InkToolbarBallpointPenButton.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="B"/>
                             </InkToolbarBallpointPenButton.KeyboardAccelerators>
@@ -68,9 +69,6 @@
                             </InkToolbarStencilButton.KeyboardAccelerators>
                         </InkToolbarStencilButton>
                         <InkToolbarCustomToggleButton  x:Name="PanBtn" Checked="PanBtn_Checked" Unchecked="PanBtn_Unchecked">
-                            <InkToolbarCustomToggleButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="Space"/>
-                            </InkToolbarCustomToggleButton.KeyboardAccelerators>
                             <FontIcon Glyph="&#xECE9;"/>
                         </InkToolbarCustomToggleButton>
                     </InkToolbar>
@@ -83,7 +81,7 @@
                     </Button.Content>
                 </Button>
                 <Button x:Name="LoadBtn" Width="48" Height="48" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0"
-                                BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
+                        BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
                     <Button.Content>
                         <FontIcon Glyph="&#xE896;" Foreground="{ThemeResource ButtonForeground}"/>
                     </Button.Content>
