@@ -105,7 +105,6 @@ namespace TestPaint
                 .Select<InkStroke, StrokeData>((inkStroke, strokeData) => new StrokeData(inkStroke.GetInkPoints(), inkStroke.DrawingAttributes));
             Layer layer = new Layer("test", true, 1, strokes);
             CanvasDataObject.LayerManager.AddLayer(layer);
-            StorageManager.SaveToJSON(CanvasDataObject);
         }
 
         private void hub_Click(object sender, RoutedEventArgs e)
