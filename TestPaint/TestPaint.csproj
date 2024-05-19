@@ -119,23 +119,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CanvasDataObject.cs" />
+    <Compile Include="Models\CanvasDataObject.cs" />
     <Compile Include="DrawingPage.xaml.cs">
       <DependentUpon>DrawingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="HubPage.xaml.cs">
       <DependentUpon>HubPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Layer.cs" />
-    <Compile Include="LayerManager.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Layer.cs" />
+    <Compile Include="Helpers\LayerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenameCanvasDialogContent.xaml.cs">
       <DependentUpon>RenameCanvasDialogContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StorageManager.cs" />
+    <Compile Include="Helpers\StorageManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -164,10 +161,6 @@
     <Page Include="HubPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="RenameCanvasDialogContent.xaml">
       <SubType>Designer</SubType>
