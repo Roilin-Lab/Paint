@@ -18,7 +18,10 @@
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Disabled"
                           HorizontalScrollMode="Disabled"
-                          ZoomMode="Enabled" PreviewKeyDown="frameCanvas_PreviewKeyDown" PreviewKeyUp="frameCanvas_PreviewKeyUp" IsTabStop="True">
+                          ZoomMode="Enabled"
+                          PreviewKeyDown="frameCanvas_PreviewKeyDown"
+                          PreviewKeyUp="frameCanvas_PreviewKeyUp"
+                          IsTabStop="True">
                 <Border x:Name="border" BorderThickness="3" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="1080" Height="720" Background="White" Margin="150">
                     <Grid>
                         <canvas:CanvasControl x:Name="canvasControl" Draw="canvasControl_Draw" CreateResources="canvasControl_CreateResources"/>
@@ -81,7 +84,7 @@
                     </Button.Content>
                 </Button>
                 <Button x:Name="LoadBtn" Width="48" Height="48" CornerRadius="5" Margin="0,5,0,0" Padding="11,0,11,0"
-                        BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
+                        BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}" Click="LoadBtn_Click">
                     <Button.Content>
                         <FontIcon Glyph="&#xE896;" Foreground="{ThemeResource ButtonForeground}"/>
                     </Button.Content>

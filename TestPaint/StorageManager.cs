@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -35,7 +36,6 @@ namespace TestPaint
             WriteCanvaseInFile(inkCanvas, file);
 
             return canvasDataObject;
-
         }
 
         public static async void LoadCanvas(InkCanvas inkCanvas, CanvasDataObject canvasDataObject)
@@ -86,6 +86,27 @@ namespace TestPaint
 
             await file.RenameAsync(newName + CanvasDataObject.FileType, NameCollisionOption.ReplaceExisting);
             return GetCanvasDataObject(file);
+        }
+
+        public static async void WriteCanvasToJson(CanvasDataObject canvasDataObject)
+        {
+            StorageFolder storageFolder = await GetOrCreateWorkDirectory();
+            StorageFile file = await storageFolder.CreateFileAsync("Untitled.json", CreationCollisionOption.ReplaceExisting);
+
+            var json = JsonConvert.SerializeObject(canvasDataObject, Formatting.Indented);
+
+            await FileIO.WriteTextAsync(file, json);
+        }
+
+        public static async Task<CanvasDataObject> ReadCanvasFromJson()
+        {
+            StorageFolder storageFolder = await GetOrCreateWorkDirectory();
+            StorageFile file = await storageFolder.GetFileAsync("Untitled.json");
+
+            var json = await FileIO.ReadTextAsync(file);
+
+            var canvasDataObject = JsonConvert.DeserializeObject<CanvasDataObject>(json);
+            return canvasDataObject;
         }
 
         private static CanvasDataObject GetCanvasDataObject(StorageFile file)

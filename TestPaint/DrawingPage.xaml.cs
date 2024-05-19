@@ -9,11 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.ApplicationModel.Resources;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
@@ -86,25 +88,22 @@ namespace TestPaint
 
         private void canvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            using(CanvasDrawingSession session = renderTarget.CreateDrawingSession())
-            {
-                session.DrawText("Hello World", 100, 100, Colors.Black);
-            }
-
-            args.DrawingSession.DrawImage(renderTarget);
         }
 
         private void canvasControl_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            renderTarget = new CanvasRenderTarget(canvasControl, canvasControl.Size);
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            var strokes = canvas.InkPresenter.StrokeContainer.GetStrokes()
-                .Select<InkStroke, StrokeData>((inkStroke, strokeData) => new StrokeData(inkStroke.GetInkPoints(), inkStroke.DrawingAttributes));
-            Layer layer = new Layer("test", true, 1, strokes);
-            CanvasDataObject.LayerManager.AddLayer(layer);
+            CanvasDataObject.LoadFromCanvas(canvas);
+            StorageManager.WriteCanvasToJson(CanvasDataObject);
+        }
+
+        private async void LoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CanvasDataObject canvasDataObject = await StorageManager.ReadCanvasFromJson();
+            var c = canvasDataObject.LoadToCanvas(canvas);
         }
 
         private void hub_Click(object sender, RoutedEventArgs e)
