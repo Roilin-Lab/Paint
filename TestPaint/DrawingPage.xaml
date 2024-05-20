@@ -22,11 +22,11 @@
                           PreviewKeyDown="frameCanvas_PreviewKeyDown"
                           PreviewKeyUp="frameCanvas_PreviewKeyUp"
                           IsTabStop="True">
-                <Border x:Name="border" BorderThickness="3" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Width="1080" Height="720" Background="White" Margin="150">
-                    <Grid>
+                <Border x:Name="border" BorderThickness="3" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="White" Width="1080" Height="720" Margin="150">
+                    <Canvas x:Name="canvas">
                         <canvas:CanvasControl x:Name="canvasControl" Draw="canvasControl_Draw" CreateResources="canvasControl_CreateResources"/>
-                        <InkCanvas x:Name="canvas" ManipulationDelta="canvas_ManipulationDelta"/>
-                    </Grid>
+                        <InkCanvas x:Name="inkCanvas" Width="1080" Height="720" ManipulationDelta="canvas_ManipulationDelta" Canvas.ZIndex="-1"/>
+                    </Canvas>
                 </Border>
             </ScrollViewer>
         </Grid>
@@ -45,7 +45,7 @@
                 </Button>
 
                 <Border CornerRadius="5" BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
-                    <InkToolbar x:Name="Toolbar" Orientation="Vertical" TargetInkCanvas="{x:Bind canvas}">
+                    <InkToolbar x:Name="Toolbar" Orientation="Vertical" TargetInkCanvas="{x:Bind inkCanvas}">
                         <InkToolbarBallpointPenButton>
                             <InkToolbarBallpointPenButton.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="B"/>
@@ -92,5 +92,30 @@
             </StackPanel>
         </ScrollViewer>
 
+        <StackPanel Margin="20,20,20,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button x:Name="ImportBtn" Width="48" Height="48" CornerRadius="5" Margin="0,5,5,0" Padding="11,0,11,0"
+                    BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}" Click="ImportBtn_Click">
+                <Button.Content>
+                    <FontIcon Glyph="&#xE896;" Foreground="{ThemeResource ButtonForeground}"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="ExportBtn" Width="48" Height="48" CornerRadius="5" Margin="0,5,5,0" Padding="11,0,11,0"
+                BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
+                <Button.Content>
+                    <FontIcon Glyph="&#xE898;" Foreground="{ThemeResource ButtonForeground}"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="PreferencesBtn" Width="48" Height="48" CornerRadius="5" Margin="0,5,5,0" Padding="11,0,11,0"
+                    BorderThickness="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentRevealBorderBrush}" Background="{ThemeResource InkToolbarButtonBackgroundThemeBrush}">
+                <Button.Content>
+                    <FontIcon Glyph="&#xF259;" Foreground="{ThemeResource ButtonForeground}" RenderTransformOrigin="0.5,0.5">
+                        <FontIcon.RenderTransform>
+                            <CompositeTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </FontIcon.RenderTransform>
+                    </FontIcon>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        
     </Grid>
 </Page>
