@@ -29,7 +29,7 @@ A simple Paint application clone developed in C# using the Universal Windows Pla
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/paint-clone.git
+   git clone https://github.com/Roilin-Lab/Paint.git
    ```
 
 2. Open the project in Visual Studio.
