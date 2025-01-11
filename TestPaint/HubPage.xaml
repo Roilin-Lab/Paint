@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:local="using:TestPaint"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}" RequestedTheme="Light">
 
     <Page.Resources>
         <MenuFlyout x:Key="CanvasContextMenu">
@@ -57,7 +57,6 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local:CanvasDataObject">
                     <StackPanel>
-                        <Image Source="Assets\SplashScreen.scale-200.png" Width="200" Height="75"></Image>
                         <StackPanel>
                             <TextBlock Text="{x:Bind Title}"/>
                             <TextBlock Text="{x:Bind CreatedAt}"/>
